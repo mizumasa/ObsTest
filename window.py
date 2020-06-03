@@ -7,7 +7,7 @@ import numpy as np
 import cv2
 
 class WINDOW_EASER:
-    def __init__(self,h,w):
+    def __init__(self,w,h):
         self.canvas = np.zeros((h,w,3),dtype=np.uint8)
         self.w = w
         self.h = h
@@ -38,7 +38,7 @@ class WINDOW_EASER:
         self.canvas *= 0
         if self.frames is not None:
             for i,j in enumerate(self.frames.keys()):
-                d = self.frames[j]
+                d = self.frames[j].astype(np.int)
                 cv2.rectangle(self.canvas, (d[0],d[1]), (d[0]+d[2],d[1]+d[3]), (i*10, 255, 255), -1)
         return self.canvas
     def getFrames(self):
@@ -49,10 +49,10 @@ class WINDOW_EASER:
     def getFrame(self,name):
         return getFrame(self.t,self.keyPoints[name])
     def scale(self,d):
-        return np.asarray([self.w*d[0], self.h*d[1], self.w*d[2], self.h*d[3]],dtype=np.int)
+        return np.asarray([self.w*d[0], self.h*d[1], self.w*d[2], self.h*d[3]])
 
 def getFrame(t,timeline):
-    print len(timeline[0])
+    #print len(timeline[0])
     if len(timeline[0]) <= 1:
         if len(timeline[0]) == 1:
             return timeline[0][0][1]
